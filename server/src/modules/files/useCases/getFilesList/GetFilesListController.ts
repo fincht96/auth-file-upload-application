@@ -11,10 +11,13 @@ export class GetFilesListController {
   public async execute(req: express.Request, res: express.Response) {
     try {
       const list = await this.getFilesListUseCase.execute();
-      const obj = Object.fromEntries(list);
-      const json = JSON.stringify(obj);
+      let listArray = [];
 
-      res.send(json);
+      for (const [_, value] of list) {
+        listArray.push(value);
+      }
+
+      res.send(JSON.stringify(listArray));
     } catch (e) {
       console.error("e", e);
       res.sendStatus(500);
